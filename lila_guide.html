@@ -1,0 +1,978 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>莉拉 · 精神指引</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,600;1,400&family=Cormorant+Garamond:ital,wght@0,300;0,600;1,300;1,600&family=Noto+Serif+SC:wght@300;400;600&display=swap');
+
+  :root {
+    --ink: #1a1410;
+    --paper: #f5f0e8;
+    --aged: #e8dfc8;
+    --rust: #8b3a2a;
+    --dust: #9e8e7a;
+    --shadow: #2d2420;
+    --cream: #faf6ee;
+    --sidebar-w: 240px;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'Noto Serif SC', 'EB Garamond', serif;
+    height: 100vh;
+    display: flex;
+    overflow: hidden;
+  }
+
+  /* ── SIDEBAR ── */
+  .sidebar {
+    width: var(--sidebar-w);
+    background: var(--shadow);
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+    overflow: hidden;
+  }
+
+  .sidebar-head {
+    padding: 20px 16px 14px;
+    border-bottom: 1px solid rgba(255,255,255,0.07);
+  }
+
+  .sidebar-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px;
+    font-weight: 300;
+    color: var(--paper);
+    letter-spacing: -0.5px;
+    line-height: 1;
+  }
+
+  .sidebar-title em { font-style: italic; color: #c97a60; }
+
+  .sidebar-sub {
+    font-size: 10px;
+    letter-spacing: 2px;
+    color: rgba(245,240,232,0.35);
+    text-transform: uppercase;
+    margin-top: 4px;
+  }
+
+  .new-chat-btn {
+    margin: 12px 12px 0;
+    background: rgba(255,255,255,0.07);
+    border: 1px solid rgba(255,255,255,0.12);
+    color: rgba(245,240,232,0.75);
+    padding: 9px 14px;
+    font-family: 'EB Garamond', serif;
+    font-size: 12px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.2s;
+    width: calc(100% - 24px);
+    text-align: left;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .new-chat-btn:hover {
+    background: rgba(139,58,42,0.4);
+    border-color: rgba(139,58,42,0.6);
+    color: var(--paper);
+  }
+
+  .new-chat-btn .plus { font-size: 16px; line-height: 1; opacity: 0.7; }
+
+  .sidebar-section-label {
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: rgba(245,240,232,0.25);
+    padding: 16px 16px 6px;
+  }
+
+  .thread-list {
+    flex: 1;
+    overflow-y: auto;
+    padding: 0 8px 12px;
+  }
+
+  .thread-item {
+    padding: 9px 10px;
+    cursor: pointer;
+    border-radius: 2px;
+    transition: background 0.15s;
+    position: relative;
+  }
+
+  .thread-item:hover { background: rgba(255,255,255,0.06); }
+  .thread-item.active { background: rgba(139,58,42,0.25); }
+
+  .thread-item-title {
+    font-size: 13px;
+    color: rgba(245,240,232,0.75);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-height: 1.4;
+    font-family: 'Noto Serif SC', serif;
+    font-weight: 300;
+    padding-right: 20px;
+  }
+
+  .thread-item.active .thread-item-title { color: var(--paper); }
+
+  .thread-item-meta {
+    font-size: 10px;
+    color: rgba(245,240,232,0.3);
+    margin-top: 2px;
+    font-family: 'EB Garamond', serif;
+  }
+
+  .thread-delete {
+    position: absolute;
+    right: 6px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: rgba(245,240,232,0.3);
+    cursor: pointer;
+    font-size: 16px;
+    padding: 4px 6px;
+    display: block;
+    transition: color 0.15s;
+    line-height: 1;
+  }
+
+  .thread-delete:hover { color: #c97a60; }
+
+  .thread-confirm {
+    display: none;
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    background: rgba(45,36,32,0.97);
+    align-items: center;
+    gap: 6px;
+    padding: 0 8px;
+    z-index: 10;
+  }
+
+  .thread-confirm.show { display: flex; }
+
+  .thread-confirm span {
+    font-size: 11px;
+    color: rgba(245,240,232,0.5);
+    font-family: 'EB Garamond', serif;
+    white-space: nowrap;
+  }
+
+  .thread-confirm-yes {
+    background: #8b3a2a;
+    border: none;
+    color: #f5f0e8;
+    font-family: 'EB Garamond', serif;
+    font-size: 11px;
+    padding: 3px 10px;
+    cursor: pointer;
+    letter-spacing: 0.5px;
+  }
+
+  .thread-confirm-no {
+    background: none;
+    border: 1px solid rgba(245,240,232,0.2);
+    color: rgba(245,240,232,0.5);
+    font-family: 'EB Garamond', serif;
+    font-size: 11px;
+    padding: 3px 10px;
+    cursor: pointer;
+  }
+
+  .sidebar-footer {
+    padding: 12px 16px;
+    border-top: 1px solid rgba(255,255,255,0.07);
+    font-size: 10px;
+    color: rgba(245,240,232,0.2);
+    font-style: italic;
+    line-height: 1.6;
+  }
+
+  /* ── MAIN ── */
+  .main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .main::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .main > * { position: relative; z-index: 1; }
+
+  .topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 28px;
+    border-bottom: 1px solid rgba(158,142,122,0.2);
+    background: rgba(245,240,232,0.85);
+    backdrop-filter: blur(4px);
+    flex-shrink: 0;
+  }
+
+  .topbar-title-wrap {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 0;
+    flex: 1;
+  }
+
+  .topbar-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 17px;
+    font-weight: 300;
+    color: var(--shadow);
+    font-style: italic;
+    max-width: 360px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    cursor: text;
+    padding: 2px 4px;
+    border-radius: 2px;
+    transition: background 0.15s;
+  }
+
+  .topbar-title:hover { background: rgba(158,142,122,0.12); }
+
+  .topbar-title-input {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 17px;
+    font-weight: 300;
+    color: var(--shadow);
+    font-style: italic;
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid var(--rust);
+    outline: none;
+    width: 280px;
+    padding: 2px 4px;
+    display: none;
+  }
+
+  .topbar-edit-hint {
+    font-size: 10px;
+    color: var(--dust);
+    font-family: 'EB Garamond', serif;
+    opacity: 0;
+    transition: opacity 0.2s;
+    white-space: nowrap;
+  }
+
+  .topbar-title-wrap:hover .topbar-edit-hint { opacity: 1; }
+
+  .topbar-actions { display: flex; gap: 8px; }
+
+  .topbar-btn {
+    background: transparent;
+    border: 1px solid rgba(158,142,122,0.4);
+    color: var(--dust);
+    padding: 5px 14px;
+    font-family: 'EB Garamond', serif;
+    font-size: 11px;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .topbar-btn:hover { border-color: var(--ink); color: var(--ink); }
+  .topbar-btn.danger:hover { border-color: var(--rust); color: var(--rust); }
+
+  .chat-scroll {
+    flex: 1;
+    overflow-y: auto;
+    padding: 32px 48px 24px;
+  }
+
+  /* Empty state */
+  .empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100%;
+    text-align: center;
+    gap: 20px;
+    animation: fadeUp 0.6s ease both;
+  }
+
+  .empty-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(64px, 12vw, 96px);
+    font-weight: 300;
+    line-height: 0.85;
+    color: var(--ink);
+    letter-spacing: -3px;
+  }
+
+  .empty-name em { font-style: italic; color: var(--rust); }
+
+  .empty-sub {
+    font-family: 'EB Garamond', serif;
+    font-style: italic;
+    font-size: 15px;
+    color: var(--dust);
+  }
+
+  .empty-intro {
+    max-width: 400px;
+    background: var(--aged);
+    border-left: 3px solid var(--rust);
+    padding: 16px 20px;
+    font-size: 13px;
+    line-height: 1.9;
+    color: var(--shadow);
+    font-style: italic;
+    text-align: left;
+  }
+
+  .chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: center;
+    max-width: 460px;
+  }
+
+  .chip {
+    padding: 7px 16px;
+    border: 1px solid rgba(139,58,42,0.35);
+    font-size: 12px;
+    color: var(--rust);
+    font-family: 'EB Garamond', serif;
+    cursor: pointer;
+    transition: all 0.2s;
+    background: transparent;
+    letter-spacing: 0.3px;
+  }
+
+  .chip:hover { background: var(--rust); color: var(--paper); border-color: var(--rust); }
+
+  /* Messages */
+  .message {
+    padding: 18px 0;
+    border-bottom: 1px solid rgba(158,142,122,0.15);
+    animation: fadeUp 0.4s ease both;
+    max-width: 680px;
+    margin: 0 auto;
+    width: 100%;
+  }
+
+  .message:last-child { border-bottom: none; }
+
+  .message-meta {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 8px;
+  }
+
+  .message-author {
+    font-family: 'EB Garamond', serif;
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    font-weight: 600;
+  }
+
+  .message-author.lila { color: var(--rust); }
+  .message-author.you { color: var(--dust); }
+
+  .message-line { width: 28px; height: 1px; background: currentColor; opacity: 0.35; }
+
+  .message-ts {
+    font-size: 10px;
+    color: var(--dust);
+    font-family: 'EB Garamond', serif;
+    margin-left: auto;
+    opacity: 0.6;
+  }
+
+  .message-body { font-size: 15px; line-height: 1.85; color: var(--shadow); }
+
+  .message-body.lila-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 18px;
+    font-weight: 300;
+    color: var(--ink);
+  }
+
+  .message-body em { color: var(--rust); font-style: italic; }
+
+  /* Thinking */
+  .thinking {
+    display: none;
+    padding: 14px 48px;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
+  }
+
+  .thinking.active { display: flex; }
+
+  .thinking-inner {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    max-width: 680px;
+    width: 100%;
+    margin: 0 auto;
+  }
+
+  .thinking-label {
+    font-family: 'EB Garamond', serif;
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--dust);
+    font-style: italic;
+  }
+
+  .thinking-dots span {
+    display: inline-block;
+    width: 4px; height: 4px;
+    border-radius: 50%;
+    background: var(--rust);
+    opacity: 0.4;
+    animation: pulse 1.2s ease-in-out infinite;
+    margin: 0 1px;
+  }
+
+  .thinking-dots span:nth-child(2) { animation-delay: 0.2s; }
+  .thinking-dots span:nth-child(3) { animation-delay: 0.4s; }
+
+  /* Input */
+  .input-area {
+    flex-shrink: 0;
+    padding: 14px 48px 18px;
+    border-top: 1px solid rgba(158,142,122,0.2);
+    background: rgba(245,240,232,0.92);
+  }
+
+  .input-inner { max-width: 680px; margin: 0 auto; }
+
+  .input-wrapper {
+    background: var(--cream);
+    border: 1px solid rgba(158,142,122,0.35);
+    border-top: 2px solid var(--ink);
+  }
+
+  textarea {
+    width: 100%;
+    background: transparent;
+    border: none;
+    outline: none;
+    resize: none;
+    padding: 14px 16px 10px;
+    font-family: 'Noto Serif SC', serif;
+    font-size: 14px;
+    line-height: 1.7;
+    color: var(--ink);
+    min-height: 72px;
+    max-height: 180px;
+  }
+
+  textarea::placeholder { color: var(--dust); font-style: italic; }
+
+  .input-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px 12px 8px;
+    border-top: 1px solid rgba(158,142,122,0.15);
+  }
+
+  .input-hint { font-size: 10px; color: var(--dust); font-style: italic; }
+
+  .send-btn {
+    background: var(--ink);
+    color: var(--paper);
+    border: none;
+    padding: 7px 22px;
+    font-family: 'EB Garamond', serif;
+    font-size: 12px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+
+  .send-btn:hover { background: var(--rust); }
+  .send-btn:disabled { opacity: 0.45; cursor: not-allowed; }
+
+  .error-msg {
+    color: var(--rust);
+    font-size: 13px;
+    font-style: italic;
+    padding: 8px 0;
+    max-width: 680px;
+    margin: 0 auto;
+    display: block;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 0.3; transform: scale(0.8); }
+    50% { opacity: 1; transform: scale(1.1); }
+  }
+
+  ::-webkit-scrollbar { width: 3px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--dust); border-radius: 2px; }
+</style>
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<div class="sidebar">
+  <div class="sidebar-head">
+    <div class="sidebar-title">L<em>i</em>la</div>
+    <div class="sidebar-sub">精神指引 · Spirit Guide</div>
+  </div>
+  <button class="new-chat-btn" onclick="newThread()">
+    <span class="plus">＋</span> 新对话
+  </button>
+  <div class="sidebar-section-label">历史对话</div>
+  <div class="thread-list" id="threadList"></div>
+  <div class="sidebar-footer">
+    莉拉的话语来自AI<br>灵感源于埃莱娜·费兰特的文学世界
+  </div>
+</div>
+
+<!-- MAIN -->
+<div class="main">
+  <div class="topbar">
+    <div class="topbar-title-wrap">
+      <span class="topbar-title" id="topbarTitle" onclick="startEditTitle()">选择或新建一个对话</span>
+      <input class="topbar-title-input" id="topbarTitleInput" onblur="finishEditTitle()" onkeydown="titleKeydown(event)" />
+      <span class="topbar-edit-hint">点击编辑</span>
+    </div>
+    <div class="topbar-actions">
+      <button class="topbar-btn" onclick="exportChat()">↓ 导出</button>
+      <button class="topbar-btn danger" onclick="deleteCurrentThread()">删除对话</button>
+    </div>
+  </div>
+
+  <div class="chat-scroll" id="chatScroll">
+    <div class="empty-state" id="emptyState">
+      <div>
+        <div class="empty-name">L<em>i</em>la</div>
+        <div class="empty-sub">《我的天才女友》· 那不勒斯四部曲</div>
+      </div>
+      <div class="empty-intro">
+        她不会告诉你想听的话。她会告诉你需要听的话。莉拉·塞鲁洛，那不勒斯弄堂里磨砺出来的女人——她的清醒是一把刀，割掉你身上所有的自欺欺人。
+      </div>
+      <div class="chips">
+        <button class="chip" onclick="startWithPrompt('我在做一个重要决定，但周围人都不支持我……')">决策困境</button>
+        <button class="chip" onclick="startWithPrompt('我不知道自己真正想要什么，感觉很迷失……')">自我迷茫</button>
+        <button class="chip" onclick="startWithPrompt('有人在质疑我的能力，让我开始怀疑自己……')">面对质疑</button>
+        <button class="chip" onclick="startWithPrompt('我感觉被困住了，不知道怎么突破现状……')">突破困境</button>
+      </div>
+    </div>
+    <div id="chatArea"></div>
+  </div>
+
+  <div class="thinking" id="thinking">
+    <div class="thinking-inner">
+      <span class="thinking-label">莉拉在想</span>
+      <div class="thinking-dots"><span></span><span></span><span></span></div>
+    </div>
+  </div>
+
+  <div class="input-area">
+    <div class="input-inner">
+      <div class="input-wrapper">
+        <textarea id="userInput" placeholder="告诉她你的困惑……" rows="3"></textarea>
+        <div class="input-footer">
+          <span class="input-hint">Enter 换行 · Ctrl+Enter 发送</span>
+          <button class="send-btn" id="sendBtn" onclick="sendMessage()">倾诉</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const SYSTEM_PROMPT = `你现在扮演莉拉（Lila / Raffaella Cerullo），埃莱娜·费兰特《我的天才女友》那不勒斯四部曲中的核心人物。
+
+莉拉的核心性格：
+- 极度真实、不妥协、拒绝自我欺骗和对他人虚伪
+- 思维锋利，能直接看穿问题的本质，不绕弯子
+- 对"随波逐流""委屈自己取悦他人"有本能的反感
+- 坚韧，在真实的困境中磨砺出来的韧性，不是表演出来的坚强
+- 有温度，但温度藏在犀利之下，不轻易示弱
+- 她懂得阶级、性别、权力对人的压迫，懂得"做自己"有多难也有多必要
+
+说话风格：
+- 直接犀利，不拐弯抹角，不给对方台阶下（除非对方真的需要）
+- 不说励志鸡汤，不用"你一定可以的！"这类废话
+- 用具体的、有质感的语言，有时带一点那不勒斯式的粗粝感
+- 反问比陈述多，让对方自己看清楚
+- 中文回复，语感自然，不要太书面
+
+任务：
+用户来找你倾诉困惑——关于自我认同、面对他人压力/质疑、做决策时的迷茫。
+你的角色是帮助他们看清真相、找到内心的笃定，而不是安慰他们或者帮他们逃避。
+每次回复控制在150-250字左右。不要加任何角色扮演描述，直接说话。`;
+
+const THREADS_KEY = 'lila-threads-v2';
+const CURRENT_KEY = 'lila-current-v2';
+
+let threads = {};
+let currentThreadId = null;
+
+function uid() { return Date.now().toString(36) + Math.random().toString(36).slice(2,6); }
+
+function getTimestamp() {
+  const now = new Date();
+  return `${now.getMonth()+1}/${now.getDate()} ${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}`;
+}
+
+function formatDate(iso) {
+  const d = new Date(iso);
+  return `${d.getMonth()+1}/${d.getDate()}`;
+}
+
+function formatResponse(text) {
+  return text.replace(/「(.+?)」/g, '<em>$1</em>');
+}
+
+function stripHtml(html) { return html.replace(/<[^>]+>/g, ''); }
+
+function escHtml(s) {
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+async function saveAll() {
+  try {
+    await window.storage.set(THREADS_KEY, JSON.stringify(threads));
+    if (currentThreadId) await window.storage.set(CURRENT_KEY, currentThreadId);
+  } catch(e) {}
+}
+
+async function loadAll() {
+  try {
+    const tr = await window.storage.get(THREADS_KEY);
+    if (tr?.value) threads = JSON.parse(tr.value);
+    const cur = await window.storage.get(CURRENT_KEY);
+    if (cur?.value && threads[cur.value]) currentThreadId = cur.value;
+  } catch(e) {}
+}
+
+function newThread(autoTitle) {
+  const id = uid();
+  threads[id] = {
+    id,
+    title: autoTitle || '新对话',
+    createdAt: new Date().toISOString(),
+    messages: [],
+    display: []
+  };
+  switchThread(id);
+  saveAll();
+  return id;
+}
+
+function switchThread(id) {
+  currentThreadId = id;
+  renderSidebar();
+  renderChat();
+  document.getElementById('userInput').focus();
+}
+
+function deleteCurrentThread() {
+  if (!currentThreadId) return;
+  delete threads[currentThreadId];
+  const ids = Object.keys(threads);
+  currentThreadId = ids.length > 0 ? ids[ids.length - 1] : null;
+  renderSidebar();
+  renderChat();
+  saveAll();
+}
+
+function deleteThread(id) {
+  delete threads[id];
+  if (currentThreadId === id) {
+    const ids = Object.keys(threads);
+    currentThreadId = ids.length > 0 ? ids[ids.length-1] : null;
+  }
+  renderSidebar();
+  renderChat();
+  saveAll();
+}
+
+function renderSidebar() {
+  const list = document.getElementById('threadList');
+  const ids = Object.keys(threads).sort((a,b) => threads[b].createdAt.localeCompare(threads[a].createdAt));
+
+  if (ids.length === 0) {
+    list.innerHTML = '<div style="padding:12px 10px;font-size:11px;color:rgba(245,240,232,0.2);font-style:italic;">还没有对话</div>';
+    return;
+  }
+
+  list.innerHTML = ids.map(id => {
+    const t = threads[id];
+    const active = id === currentThreadId ? 'active' : '';
+    return `<div class="thread-item ${active}" id="ti-${id}" onclick="switchThread('${id}')"><div class="thread-item-title">${escHtml(t.title)}</div><div class="thread-item-meta">${formatDate(t.createdAt)} · ${t.display.length} 条</div><button class="thread-delete" onclick="event.stopPropagation();showDeleteConfirm('${id}')" title="删除">×</button><div class="thread-confirm" id="tc-${id}"><span>确认删除？</span><button class="thread-confirm-yes" onclick="event.stopPropagation();deleteThread('${id}')">删除</button><button class="thread-confirm-no" onclick="event.stopPropagation();hideDeleteConfirm('${id}')">取消</button></div></div>`;
+  }).join('');
+}
+
+function showDeleteConfirm(id) {
+  const el = document.getElementById('tc-' + id);
+  if (el) el.classList.add('show');
+}
+
+function hideDeleteConfirm(id) {
+  const el = document.getElementById('tc-' + id);
+  if (el) el.classList.remove('show');
+}
+
+function renderChat() {
+  const chatArea = document.getElementById('chatArea');
+  const emptyState = document.getElementById('emptyState');
+  const topbarTitle = document.getElementById('topbarTitle');
+
+  if (!currentThreadId || !threads[currentThreadId]) {
+    emptyState.style.display = 'flex';
+    chatArea.innerHTML = '';
+    topbarTitle.textContent = '选择或新建一个对话';
+    return;
+  }
+
+  const thread = threads[currentThreadId];
+  emptyState.style.display = 'none';
+  topbarTitle.textContent = thread.title;
+  chatArea.innerHTML = '';
+  thread.display.forEach(m => appendMessageEl(m.author, m.text, m.isLila, m.ts, false));
+  const scroll = document.getElementById('chatScroll');
+  scroll.scrollTop = scroll.scrollHeight;
+}
+
+function appendMessageEl(author, text, isLila, ts, scroll = true) {
+  const chatArea = document.getElementById('chatArea');
+  const div = document.createElement('div');
+  div.className = 'message';
+  div.innerHTML = `
+    <div class="message-meta">
+      <span class="message-author ${isLila ? 'lila' : 'you'}">${author}</span>
+      <div class="message-line" style="color:${isLila ? 'var(--rust)' : 'var(--dust)'}"></div>
+      ${ts ? `<span class="message-ts">${ts}</span>` : ''}
+    </div>
+    <div class="message-body ${isLila ? 'lila-text' : ''}">${text}</div>
+  `;
+  chatArea.appendChild(div);
+  if (scroll) {
+    const scrollEl = document.getElementById('chatScroll');
+    scrollEl.scrollTop = scrollEl.scrollHeight;
+  }
+}
+
+function autoTitle(text) {
+  const clean = text.replace(/[…。，,！!？?\n]/g, ' ').trim();
+  return clean.length > 16 ? clean.slice(0,16) + '…' : clean;
+}
+
+async function generateAiTitle(thread) {
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 30,
+        system: '你是标题生成助手。根据对话内容，用4-8个中文字生成一个简洁有意味的对话标题。只输出标题本身，不加任何标点或说明。',
+        messages: [{ role: 'user', content: `对话内容：\n用户：${thread.messages[0]?.content || ''}\n莉拉：${thread.messages[1]?.content || ''}` }]
+      })
+    });
+    const data = await res.json();
+    const title = data.content?.[0]?.text?.trim();
+    if (title && title.length <= 20) return title;
+  } catch(e) {}
+  return null;
+}
+
+// ── Title editing ──
+function startEditTitle() {
+  if (!currentThreadId) return;
+  const titleEl = document.getElementById('topbarTitle');
+  const inputEl = document.getElementById('topbarTitleInput');
+  inputEl.value = threads[currentThreadId].title;
+  titleEl.style.display = 'none';
+  inputEl.style.display = 'block';
+  inputEl.focus();
+  inputEl.select();
+}
+
+function finishEditTitle() {
+  const titleEl = document.getElementById('topbarTitle');
+  const inputEl = document.getElementById('topbarTitleInput');
+  const newTitle = inputEl.value.trim();
+  if (newTitle && currentThreadId) {
+    threads[currentThreadId].title = newTitle;
+    titleEl.textContent = newTitle;
+    renderSidebar();
+    saveAll();
+  }
+  inputEl.style.display = 'none';
+  titleEl.style.display = '';
+}
+
+function titleKeydown(e) {
+  if (e.key === 'Enter') { e.preventDefault(); finishEditTitle(); }
+  if (e.key === 'Escape') {
+    const titleEl = document.getElementById('topbarTitle');
+    const inputEl = document.getElementById('topbarTitleInput');
+    inputEl.style.display = 'none';
+    titleEl.style.display = '';
+  }
+}
+
+document.getElementById('userInput').addEventListener('keydown', e => {
+  if (e.ctrlKey && e.key === 'Enter') sendMessage();
+});
+
+async function sendMessage() {
+  const input = document.getElementById('userInput');
+  const btn = document.getElementById('sendBtn');
+  const thinking = document.getElementById('thinking');
+  const text = input.value.trim();
+  if (!text) return;
+
+  if (!currentThreadId) newThread(autoTitle(text));
+  const thread = threads[currentThreadId];
+
+  if (thread.display.length === 0) {
+    thread.title = autoTitle(text);
+    document.getElementById('topbarTitle').textContent = thread.title;
+    renderSidebar();
+  }
+
+  const ts = getTimestamp();
+  const safeText = escHtml(text);
+  thread.messages.push({ role: 'user', content: text });
+  thread.display.push({ author: '你', text: safeText, isLila: false, ts });
+  appendMessageEl('你', safeText, false, ts);
+
+  document.getElementById('emptyState').style.display = 'none';
+  input.value = '';
+  btn.disabled = true;
+  thinking.classList.add('active');
+
+  try {
+    const response = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 1000,
+        system: SYSTEM_PROMPT,
+        messages: thread.messages
+      })
+    });
+
+    const data = await response.json();
+    if (data.error) throw new Error(data.error.message);
+
+    const reply = data.content?.[0]?.text || '……';
+    const replyTs = getTimestamp();
+    const formatted = formatResponse(reply);
+
+    thread.messages.push({ role: 'assistant', content: reply });
+    thread.display.push({ author: '莉拉', text: formatted, isLila: true, ts: replyTs });
+
+    thinking.classList.remove('active');
+    appendMessageEl('莉拉', formatted, true, replyTs);
+
+    // Generate AI title after first exchange
+    if (thread.messages.length === 2) {
+      generateAiTitle(thread).then(title => {
+        if (title) {
+          thread.title = title;
+          document.getElementById('topbarTitle').textContent = title;
+          renderSidebar();
+          saveAll();
+        }
+      });
+    } else {
+      renderSidebar();
+    }
+    await saveAll();
+
+  } catch(err) {
+    thinking.classList.remove('active');
+    const errEl = document.createElement('span');
+    errEl.className = 'error-msg';
+    errEl.textContent = '连接出了点问题，再试一次。';
+    document.getElementById('chatArea').appendChild(errEl);
+  }
+
+  btn.disabled = false;
+}
+
+function startWithPrompt(text) {
+  if (!currentThreadId) newThread();
+  document.getElementById('userInput').value = text;
+  document.getElementById('userInput').focus();
+}
+
+function exportChat() {
+  if (!currentThreadId || !threads[currentThreadId]) return;
+  const thread = threads[currentThreadId];
+  if (thread.display.length === 0) return;
+  const lines = [`莉拉 · 精神指引 · ${thread.title}`, '='.repeat(30), ''];
+  thread.display.forEach(m => {
+    lines.push(`【${m.author}】${m.ts ? ' ' + m.ts : ''}`);
+    lines.push(stripHtml(m.text));
+    lines.push('');
+  });
+  const blob = new Blob([lines.join('\n')], { type: 'text/plain;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `lila-${thread.title.slice(0,10)}-${new Date().toISOString().slice(0,10)}.txt`;
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+async function init() {
+  await loadAll();
+  renderSidebar();
+  renderChat();
+}
+
+init();
+</script>
+</body>
+</html>
