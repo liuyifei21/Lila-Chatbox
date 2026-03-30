@@ -1154,7 +1154,11 @@ async function callLLM({ system, messages, maxTokens = 1000 }) {
   const body = {
     system_instruction: system ? { parts: [{ text: system }] } : undefined,
     contents,
-    generationConfig: { maxOutputTokens: maxTokens, temperature: 0.9 }
+    generationConfig: {
+      maxOutputTokens: maxTokens,
+      temperature: 0.9,
+      thinkingConfig: { thinkingBudget: 0 }
+    }
   };
 
   const res = await fetch(
