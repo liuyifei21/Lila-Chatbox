@@ -90,6 +90,53 @@
 
   .new-chat-btn .plus { font-size: 16px; line-height: 1; opacity: 0.7; }
 
+  .profile-btn {
+    margin: 8px 12px 0;
+    background: rgba(139,58,42,0.15);
+    border: 1px solid rgba(139,58,42,0.3);
+    color: #c97a60;
+    padding: 8px 14px;
+    font-family: 'EB Garamond', serif;
+    font-size: 12px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.2s;
+    width: calc(100% - 24px);
+    text-align: left;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .profile-btn:hover {
+    background: rgba(139,58,42,0.3);
+    border-color: rgba(139,58,42,0.6);
+    color: var(--paper);
+  }
+
+  .profile-btn.has-memory { border-color: rgba(139,58,42,0.5); }
+
+  .memory-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: #c97a60;
+    flex-shrink: 0;
+  }
+
+  /* Memory badge in topbar */
+  .memory-badge {
+    font-size: 10px;
+    color: #c97a60;
+    font-family: 'EB Garamond', serif;
+    font-style: italic;
+    padding: 2px 8px;
+    border: 1px solid rgba(139,58,42,0.3);
+    display: none;
+  }
+
+  .memory-badge.show { display: block; }
+
   .sidebar-section-label {
     font-size: 10px;
     letter-spacing: 2px;
@@ -416,7 +463,7 @@
     opacity: 0.6;
   }
 
-  .message-body { font-size: 15px; line-height: 1.85; color: var(--shadow); }
+  .message-body { font-size: 15px; line-height: 1.85; color: var(--shadow); white-space: pre-wrap; }
 
   .message-body.lila-text {
     font-family: 'Cormorant Garamond', serif;
@@ -426,6 +473,98 @@
   }
 
   .message-body em { color: var(--rust); font-style: italic; }
+
+  /* Edit button on user messages */
+  .msg-edit-btn {
+    background: none;
+    border: none;
+    color: var(--dust);
+    font-size: 11px;
+    font-family: 'EB Garamond', serif;
+    cursor: pointer;
+    padding: 2px 6px;
+    opacity: 0;
+    transition: opacity 0.15s, color 0.15s;
+    letter-spacing: 0.5px;
+    margin-left: 6px;
+  }
+
+  .message:hover .msg-edit-btn { opacity: 1; }
+  .msg-edit-btn:hover { color: var(--rust); }
+
+  /* Inline edit textarea */
+  .msg-edit-area {
+    width: 100%;
+    background: var(--cream);
+    border: 1px solid rgba(158,142,122,0.4);
+    border-top: 2px solid var(--rust);
+    outline: none;
+    resize: none;
+    padding: 10px 12px;
+    font-family: 'Noto Serif SC', serif;
+    font-size: 14px;
+    line-height: 1.7;
+    color: var(--ink);
+    margin-top: 8px;
+    display: none;
+  }
+
+  .msg-edit-actions {
+    display: none;
+    gap: 8px;
+    margin-top: 6px;
+  }
+
+  .msg-edit-save {
+    background: var(--ink);
+    color: var(--paper);
+    border: none;
+    padding: 5px 16px;
+    font-family: 'EB Garamond', serif;
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+
+  .msg-edit-save:hover { background: var(--rust); }
+
+  .msg-edit-cancel {
+    background: none;
+    border: 1px solid rgba(158,142,122,0.4);
+    color: var(--dust);
+    padding: 5px 14px;
+    font-family: 'EB Garamond', serif;
+    font-size: 11px;
+    cursor: pointer;
+  }
+
+  /* Lila option chips */
+  .lila-options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 14px;
+  }
+
+  .lila-option-btn {
+    padding: 7px 16px;
+    border: 1px solid rgba(139,58,42,0.35);
+    font-size: 13px;
+    color: var(--rust);
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    cursor: pointer;
+    transition: all 0.2s;
+    background: transparent;
+  }
+
+  .lila-option-btn:hover {
+    background: var(--rust);
+    color: var(--paper);
+    border-color: var(--rust);
+  }
 
   /* Thinking */
   .thinking {
@@ -528,6 +667,375 @@
   .send-btn:hover { background: var(--rust); }
   .send-btn:disabled { opacity: 0.45; cursor: not-allowed; }
 
+  /* Check-in button */
+  .checkin-btn {
+    margin: 8px 12px 0;
+    background: transparent;
+    border: 1px solid rgba(255,255,255,0.1);
+    color: rgba(245,240,232,0.5);
+    padding: 8px 14px;
+    font-family: 'EB Garamond', serif;
+    font-size: 12px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.2s;
+    width: calc(100% - 24px);
+    text-align: left;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .checkin-btn:hover { background: rgba(255,255,255,0.06); color: rgba(245,240,232,0.8); }
+
+  .checkin-badge {
+    background: var(--rust);
+    color: var(--paper);
+    border-radius: 10px;
+    font-size: 10px;
+    padding: 1px 6px;
+    margin-left: auto;
+  }
+
+  /* Check-in modal */
+  .modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(26,20,16,0.85);
+    z-index: 999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+  }
+
+  .modal-box {
+    background: var(--cream);
+    max-width: 480px;
+    width: 100%;
+    border-top: 3px solid var(--rust);
+  }
+
+  .modal-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 20px;
+    border-bottom: 1px solid rgba(158,142,122,0.2);
+  }
+
+  .modal-head-title {
+    font-family: 'EB Garamond', serif;
+    font-size: 12px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--dust);
+  }
+
+  .modal-close {
+    background: none;
+    border: none;
+    font-size: 20px;
+    color: var(--dust);
+    cursor: pointer;
+    line-height: 1;
+  }
+
+  .modal-body { padding: 20px; }
+
+  .modal-label {
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--dust);
+    font-family: 'EB Garamond', serif;
+    margin-bottom: 6px;
+    display: block;
+  }
+
+  .modal-input {
+    width: 100%;
+    background: var(--paper);
+    border: 1px solid rgba(158,142,122,0.4);
+    border-top: 2px solid var(--ink);
+    padding: 10px 12px;
+    font-family: 'Noto Serif SC', serif;
+    font-size: 14px;
+    color: var(--ink);
+    outline: none;
+    margin-bottom: 14px;
+  }
+
+  .modal-input:focus { border-top-color: var(--rust); }
+
+  .modal-footer {
+    display: flex;
+    justify-content: flex-end;
+    padding: 12px 20px;
+    border-top: 1px solid rgba(158,142,122,0.2);
+  }
+
+  .modal-save {
+    background: var(--ink);
+    color: var(--paper);
+    border: none;
+    padding: 8px 24px;
+    font-family: 'EB Garamond', serif;
+    font-size: 12px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+
+  .modal-save:hover { background: var(--rust); }
+
+  /* Commitment list */
+  .commitment-list { margin-bottom: 16px; }
+
+  .commitment-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(158,142,122,0.15);
+  }
+
+  .commitment-item:last-child { border-bottom: none; }
+
+  .commitment-text {
+    display: inline;
+    font-size: 13px;
+    color: var(--shadow);
+    font-family: 'Noto Serif SC', serif;
+    line-height: 1.5;
+  }
+
+  .commitment-due {
+    font-size: 11px;
+    color: var(--dust);
+    font-family: 'EB Garamond', serif;
+    white-space: nowrap;
+    cursor: pointer;
+    padding: 2px 6px;
+    border-radius: 2px;
+    border: 1px solid transparent;
+    transition: all 0.15s;
+    position: relative;
+  }
+
+  .commitment-due:hover {
+    border-color: rgba(139,58,42,0.3);
+    color: var(--rust);
+    background: rgba(139,58,42,0.05);
+  }
+
+  .commitment-due.overdue { color: var(--rust); font-style: italic; }
+
+  .due-wrap {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+
+  .due-edit-popup {
+    display: none;
+    position: absolute;
+    right: 0;
+    top: 100%;
+    background: var(--cream);
+    border: 1px solid rgba(158,142,122,0.4);
+    border-top: 2px solid var(--rust);
+    padding: 8px;
+    z-index: 20;
+    gap: 6px;
+    flex-direction: column;
+    min-width: 200px;
+    box-shadow: 0 4px 12px rgba(26,20,16,0.12);
+  }
+
+  .due-edit-popup.open { display: flex; }
+
+  .due-edit-popup input[type="datetime-local"] {
+    border: 1px solid rgba(158,142,122,0.4);
+    background: var(--paper);
+    padding: 5px 8px;
+    font-family: 'EB Garamond', serif;
+    font-size: 12px;
+    color: var(--ink);
+    outline: none;
+    width: 100%;
+  }
+
+  .due-edit-popup button {
+    background: transparent;
+    border: 1px solid rgba(158,142,122,0.3);
+    color: var(--dust);
+    font-family: 'EB Garamond', serif;
+    font-size: 11px;
+    padding: 4px 10px;
+    cursor: pointer;
+    letter-spacing: 0.5px;
+    transition: all 0.15s;
+    text-align: left;
+  }
+
+  .due-edit-popup button:hover { border-color: var(--rust); color: var(--rust); }
+
+  .commitment-due { cursor: pointer; text-decoration: underline dotted; }
+
+  /* Inline time editor popup */
+  .due-editor {
+    position: absolute;
+    top: calc(100% + 4px);
+    right: 0;
+    background: var(--cream);
+    border: 1px solid rgba(158,142,122,0.4);
+    border-top: 2px solid var(--rust);
+    padding: 10px 12px;
+    z-index: 50;
+    min-width: 220px;
+    box-shadow: 0 4px 16px rgba(26,20,16,0.12);
+    display: none;
+  }
+
+  .due-editor.open { display: block; }
+
+  .due-editor-label {
+    font-size: 10px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--dust);
+    font-family: 'EB Garamond', serif;
+    display: block;
+    margin-bottom: 6px;
+  }
+
+  .due-editor input[type="datetime-local"] {
+    width: 100%;
+    background: var(--paper);
+    border: 1px solid rgba(158,142,122,0.3);
+    padding: 6px 8px;
+    font-size: 12px;
+    color: var(--ink);
+    outline: none;
+    margin-bottom: 8px;
+    font-family: 'EB Garamond', serif;
+  }
+
+  .due-editor-actions {
+    display: flex;
+    gap: 6px;
+    justify-content: flex-end;
+  }
+
+  .due-editor-save {
+    background: var(--ink);
+    color: var(--paper);
+    border: none;
+    padding: 4px 14px;
+    font-family: 'EB Garamond', serif;
+    font-size: 11px;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+
+  .due-editor-save:hover { background: var(--rust); }
+
+  .due-editor-cancel {
+    background: none;
+    border: 1px solid rgba(158,142,122,0.3);
+    color: var(--dust);
+    padding: 4px 10px;
+    font-family: 'EB Garamond', serif;
+    font-size: 11px;
+    cursor: pointer;
+  }
+
+  .commitment-del-only {
+    background: none;
+    border: none;
+    color: rgba(158,142,122,0.25);
+    cursor: pointer;
+    font-size: 13px;
+    padding: 0 2px;
+    line-height: 1;
+    transition: color 0.15s;
+    opacity: 0;
+  }
+
+  .commitment-item:hover .commitment-del-only { opacity: 1; }
+  .commitment-del-only:hover { color: var(--rust); }
+
+  /* Timeline suggestion widget */
+  .timeline-suggest {
+    max-width: 680px;
+    margin: 8px auto;
+    padding: 12px 16px;
+    background: rgba(139,58,42,0.06);
+    border-left: 2px solid rgba(139,58,42,0.3);
+    animation: fadeUp 0.3s ease both;
+  }
+
+  .timeline-suggest-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 15px;
+    font-style: italic;
+    color: var(--ink);
+    display: block;
+    margin-bottom: 10px;
+  }
+
+  .timeline-options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .timeline-expand {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 8px;
+    padding-top: 8px;
+    border-top: 1px solid rgba(158,142,122,0.2);
+  }
+
+  .timeline-options button {
+    padding: 5px 14px;
+    border: 1px solid rgba(139,58,42,0.3);
+    background: transparent;
+    color: var(--rust);
+    font-family: 'EB Garamond', serif;
+    font-size: 12px;
+    cursor: pointer;
+    transition: all 0.2s;
+    letter-spacing: 0.5px;
+  }
+
+  .timeline-options button:hover {
+    background: var(--rust);
+    color: var(--paper);
+  }
+
+  /* Check-in alert banner */
+  .checkin-alert {
+    background: rgba(139,58,42,0.08);
+    border-left: 3px solid var(--rust);
+    padding: 12px 20px;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 16px;
+    font-style: italic;
+    color: var(--ink);
+    cursor: pointer;
+    transition: background 0.2s;
+    flex-shrink: 0;
+  }
+
+  .checkin-alert:hover { background: rgba(139,58,42,0.13); }
+
   .error-msg {
     color: var(--rust);
     font-size: 13px;
@@ -564,6 +1072,12 @@
   <button class="new-chat-btn" onclick="newThread()">
     <span class="plus">＋</span> 新对话
   </button>
+  <button class="profile-btn" id="profileBtn" onclick="openProfileThread()">
+    <span class="memory-dot"></span> 认识我
+  </button>
+  <button class="checkin-btn" id="checkinBtn" onclick="openCheckinModal()">
+    ◎ 约定 <span class="checkin-badge" id="checkinBadge" style="display:none">0</span>
+  </button>
   <div class="sidebar-section-label">历史对话</div>
   <div class="thread-list" id="threadList"></div>
   <div class="sidebar-footer">
@@ -580,12 +1094,14 @@
       <span class="topbar-edit-hint">点击编辑</span>
     </div>
     <div class="topbar-actions">
+      <span class="memory-badge" id="memoryBadge">记忆已加载</span>
       <button class="topbar-btn" onclick="exportChat()">↓ 导出</button>
       <button class="topbar-btn danger" onclick="deleteCurrentThread()">删除对话</button>
     </div>
   </div>
 
   <div class="chat-scroll" id="chatScroll">
+    <div id="checkinAlert" class="checkin-alert" style="display:none" onclick="handleCheckinAlert()"></div>
     <div class="empty-state" id="emptyState">
       <div>
         <div class="empty-name">L<em>i</em>la</div>
@@ -606,7 +1122,7 @@
 
   <div class="thinking" id="thinking">
     <div class="thinking-inner">
-      <span class="thinking-label">莉拉在想</span>
+      <span class="thinking-label" id="thinkingLabel">莉拉在想</span>
       <div class="thinking-dots"><span></span><span></span><span></span></div>
     </div>
   </div>
@@ -616,7 +1132,7 @@
       <div class="input-wrapper">
         <textarea id="userInput" placeholder="告诉她你的困惑……" rows="3"></textarea>
         <div class="input-footer">
-          <span class="input-hint">Enter 换行 · Ctrl+Enter 发送</span>
+          <span class="input-hint">Shift+Enter 换行 · Enter 发送</span>
           <button class="send-btn" id="sendBtn" onclick="sendMessage()">倾诉</button>
         </div>
       </div>
@@ -625,33 +1141,185 @@
 </div>
 
 <script>
-const SYSTEM_PROMPT = `你现在扮演莉拉（Lila / Raffaella Cerullo），埃莱娜·费兰特《我的天才女友》那不勒斯四部曲中的核心人物。
+const GEMINI_API_KEY = 'AIzaSyAdEaxPFnMIoP_99CUXW94QeQNKWC7u_J4';
+const GEMINI_MODEL = 'gemini-2.0-flash';
 
-莉拉的核心性格：
-- 极度真实、不妥协、拒绝自我欺骗和对他人虚伪
-- 思维锋利，能直接看穿问题的本质，不绕弯子
-- 对"随波逐流""委屈自己取悦他人"有本能的反感
-- 坚韧，在真实的困境中磨砺出来的韧性，不是表演出来的坚强
-- 有温度，但温度藏在犀利之下，不轻易示弱
-- 她懂得阶级、性别、权力对人的压迫，懂得"做自己"有多难也有多必要
+// Unified LLM call — Gemini format
+async function callLLM({ system, messages, maxTokens = 1000 }) {
+  const contents = messages.map(m => ({
+    role: m.role === 'assistant' ? 'model' : 'user',
+    parts: [{ text: m.content }]
+  }));
 
-说话风格：
-- 直接犀利，不拐弯抹角，不给对方台阶下（除非对方真的需要）
-- 不说励志鸡汤，不用"你一定可以的！"这类废话
-- 用具体的、有质感的语言，有时带一点那不勒斯式的粗粝感
-- 反问比陈述多，让对方自己看清楚
-- 中文回复，语感自然，不要太书面
+  const body = {
+    system_instruction: system ? { parts: [{ text: system }] } : undefined,
+    contents,
+    generationConfig: { maxOutputTokens: maxTokens, temperature: 0.9 }
+  };
 
-任务：
-用户来找你倾诉困惑——关于自我认同、面对他人压力/质疑、做决策时的迷茫。
-你的角色是帮助他们看清真相、找到内心的笃定，而不是安慰他们或者帮他们逃避。
-每次回复控制在150-250字左右。不要加任何角色扮演描述，直接说话。`;
+  const res = await fetch(
+    `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent?key=${GEMINI_API_KEY}`,
+    { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) }
+  );
+  const data = await res.json();
+  if (data.error) throw new Error(data.error.message || JSON.stringify(data.error));
+  return data.candidates?.[0]?.content?.parts?.[0]?.text || '……';
+}
 
 const THREADS_KEY = 'lila-threads-v2';
 const CURRENT_KEY = 'lila-current-v2';
+const MEMORY_KEY = 'lila-memory-v1';
+const PROFILE_THREAD_KEY = 'lila-profile-thread-v1';
 
 let threads = {};
 let currentThreadId = null;
+let userMemory = ''; // accumulated memory string
+let profileThreadId = null; // the special "认识我" thread id
+
+const PROFILE_SYSTEM_PROMPT = `你是莉拉——Raffaella Cerullo，费兰特笔下那个从那不勒斯贫民窟里长出来的女人。
+
+你不是访谈主持人，不是咨询师。你就是你自己，你在用你的方式认识一个人。
+
+你怎么说话：
+- 直接说出你看到的东西，不管对方是否准备好听
+- 你的问题是质问，不是开放式探索
+- 你会从对方说的话里抓住漏洞或你觉得有问题的东西，追下去
+- 你会直接说出你的判断，不只是问问题
+- 绝不客套，绝不说"谢谢你告诉我"
+- 说话简短，100字以内，一句狠的胜过三句温的
+- 绝不说废话：不说"我理解""这很正常""你已经很努力了"
+
+你想了解的：这个人真实的状态——她的性格，她怎么对待自己，她在逃避什么，她执着什么，她的关系，她的处境。
+
+如果对方说的话你觉得有漏洞、在美化自己、在回避什么——你直接指出来，不绕。如果对方说的站得住脚，你就认，不强行唱反调。你的标准是真实。
+
+开场：一句话说明这是什么对话，然后直接问第一个问题。不要超过两句话。`;
+
+
+function getCurrentDateStr() {
+  const now = new Date();
+  const days = ['周日','周一','周二','周三','周四','周五','周六'];
+  const dayName = days[now.getDay()];
+  const isWeekday = now.getDay() >= 1 && now.getDay() <= 5;
+  const hour = now.getHours();
+  const min = String(now.getMinutes()).padStart(2,'0');
+  const timeStr = `${hour}:${min}`;
+  const context = isWeekday
+    ? (hour >= 9 && hour < 18 ? '工作日上班时间' : hour < 9 ? '工作日上班前' : '工作日下班后')
+    : '周末';
+  return `${now.getFullYear()}年${now.getMonth()+1}月${now.getDate()}日 ${dayName} ${timeStr}（${context}）`;
+}
+
+function buildSystemPrompt() {
+  let prompt = `你是莉拉——Raffaella Cerullo，费兰特笔下那个从那不勒斯贫民窟里长出来的女人。
+
+【当前时间】今天是 ${getCurrentDateStr()}。你对时间有清醒的感知，说到"明天""这周""最近"时，以这个日期为基准。
+
+【她的作息】工作日上班时间 9:30-17:30。现在如果是工作日上班时间，她在工作，不要建议她睡觉或休息，除非她明确说很累。周末和下班后才是她的私人时间。
+
+你不是心理咨询师，不是导师，不是"支持系统"。你是一个真实的人，有自己的判断、自己的厌恶、自己的锋芒。
+
+你怎么说话：
+- 直接说出你看到的东西，不管对方是否准备好听
+- 你不"引导"，不"帮助对方梳理"，你说你自己的想法
+- 你的问题是质问，不是开放式探索
+- 你会嘲讽那些你觉得是自欺欺人的东西
+- 你不给人台阶，除非你判断对方真的需要被扶一把
+- 说话简短、有力、具体——不用抽象词汇，不用"也许""或许""可以考虑"
+- 绝不说废话：不说"我理解""这很正常""你已经很努力了"
+
+【不要总是同意，但也不无理反驳】
+你不是yes-and机器。对方说什么，你不会自动接着往下顺。
+如果你觉得对方在自欺欺人、在回避真正的问题、在给自己找借口、逻辑有漏洞——你直接说，不管他们说得多有信心。
+但如果对方说的确实有道理、有根据、站得住脚——你就认，不强行唱反调。
+你的标准是真实，不是对抗，也不是顺从。
+
+你的世界观：
+- 你见过真正的苦难，所以你对矫情没有耐心
+- 你知道大多数人在逃避什么，你直接说出来
+- 你对自我欺骗有本能的反感——你看到就指出来，不绕
+- 你不相信"慢慢来"，你相信清醒
+
+回复长度：短。100字以内为主，最多150字。一句狠的胜过三句温的。不要加任何角色扮演描述，直接说话。
+
+【选项规则】偶尔真的需要更多信息时才给。格式必须严格如下，单独一行，英文冒号，竖线分隔：
+OPTIONS:选项一|选项二|选项三
+不要滥用，不要用中文冒号，不要加空格。`;
+
+  if (userMemory && userMemory.trim()) {
+    prompt += `\n\n【你对这个人的了解】（最后更新：${getCurrentDateStr()}）\n${userMemory}\n\n直接用，不要说出来。`;
+  }
+
+  return prompt;
+}
+
+// Extract memory from a profile conversation
+async function extractMemory(profileMessages) {
+  try {
+    return await callLLM({
+      system: '你是一个信息提取助手。从以下对话中提取关于这个人的关键信息，用简洁的要点格式整理（每条一行，用"-"开头）。包括：姓名/绰号、性格特点、生活状态、工作/职业、人际关系模式、价值观、当前困惑或人生阶段、其他重要细节。只输出要点，不要有任何说明或前言。',
+      messages: [{ role: 'user', content: profileMessages.map(m => `${m.role === 'user' ? '用户' : '莉拉'}：${m.content}`).join('\n') }],
+      maxTokens: 800
+    });
+  } catch(e) { return ''; }
+}
+
+async function saveMemory(mem) {
+  userMemory = mem;
+  try { await window.storage.set(MEMORY_KEY, mem); } catch(e) {}
+  updateMemoryBadge();
+}
+
+async function loadMemory() {
+  try {
+    const r = await window.storage.get(MEMORY_KEY);
+    if (r?.value) userMemory = r.value;
+    const p = await window.storage.get(PROFILE_THREAD_KEY);
+    if (p?.value) profileThreadId = p.value;
+  } catch(e) {}
+  updateMemoryBadge();
+}
+
+function updateMemoryBadge() {
+  const badge = document.getElementById('memoryBadge');
+  const btn = document.getElementById('profileBtn');
+  if (!badge || !btn) return;
+  if (userMemory && userMemory.trim() && currentThreadId !== profileThreadId) {
+    badge.classList.add('show');
+  } else {
+    badge.classList.remove('show');
+  }
+}
+
+function openProfileThread() {
+  // First try by stored profileThreadId
+  if (profileThreadId && threads[profileThreadId]) {
+    switchThread(profileThreadId);
+    return;
+  }
+  // Fallback: scan threads for any isProfile thread
+  const existing = Object.values(threads).find(t => t.isProfile);
+  if (existing) {
+    profileThreadId = existing.id;
+    try { window.storage.set(PROFILE_THREAD_KEY, existing.id); } catch(e) {}
+    switchThread(existing.id);
+    return;
+  }
+  // None found, create one
+  const id = uid();
+  profileThreadId = id;
+  threads[id] = {
+    id,
+    title: '认识我',
+    createdAt: new Date().toISOString(),
+    messages: [],
+    display: [],
+    isProfile: true
+  };
+  try { window.storage.set(PROFILE_THREAD_KEY, id); } catch(e) {}
+  switchThread(id);
+  saveAll();
+}
 
 function uid() { return Date.now().toString(36) + Math.random().toString(36).slice(2,6); }
 
@@ -709,6 +1377,7 @@ function switchThread(id) {
   currentThreadId = id;
   renderSidebar();
   renderChat();
+  updateMemoryBadge();
   document.getElementById('userInput').focus();
 }
 
@@ -775,28 +1444,114 @@ function renderChat() {
   emptyState.style.display = 'none';
   topbarTitle.textContent = thread.title;
   chatArea.innerHTML = '';
-  thread.display.forEach(m => appendMessageEl(m.author, m.text, m.isLila, m.ts, false));
+  thread.display.forEach((m, i) => appendMessageEl(m.author, m.text, m.isLila, m.ts, false, m.isLila ? null : i));
   const scroll = document.getElementById('chatScroll');
   scroll.scrollTop = scroll.scrollHeight;
 }
 
-function appendMessageEl(author, text, isLila, ts, scroll = true) {
+function parseOptions(text) {
+  // Match both English and Chinese colons, optional whitespace, anywhere in text
+  const match = text.match(/\n?OPTIONS[：:]\s*(.+)$/im);
+  if (!match) return { body: text, options: [] };
+  const options = match[1].split('|').map(s => s.trim()).filter(Boolean);
+  const body = text.slice(0, match.index).trim();
+  return { body, options };
+}
+
+function appendMessageEl(author, text, isLila, ts, scroll = true, msgIndex = null) {
   const chatArea = document.getElementById('chatArea');
   const div = document.createElement('div');
   div.className = 'message';
+  if (msgIndex !== null) div.dataset.msgIndex = msgIndex;
+
+  let displayText = text;
+  let optionsHtml = '';
+
+  if (isLila) {
+    const parsed = parseOptions(stripHtml(text));
+    displayText = formatResponse(escHtml(parsed.body));
+    if (parsed.options.length) {
+      optionsHtml = `<div class="lila-options">${parsed.options.map((o, i) =>
+        `<button class="lila-option-btn" data-option="${escHtml(o)}" onclick="sendOption(this)">${escHtml(o)}</button>`
+      ).join('')}</div>`;
+    }
+  }
+
+  const editBtn = !isLila && msgIndex !== null
+    ? `<button class="msg-edit-btn" onclick="startEditMessage(${msgIndex})">编辑</button>`
+    : '';
+
   div.innerHTML = `
     <div class="message-meta">
       <span class="message-author ${isLila ? 'lila' : 'you'}">${author}</span>
       <div class="message-line" style="color:${isLila ? 'var(--rust)' : 'var(--dust)'}"></div>
       ${ts ? `<span class="message-ts">${ts}</span>` : ''}
+      ${editBtn}
     </div>
-    <div class="message-body ${isLila ? 'lila-text' : ''}">${text}</div>
+    <div class="message-body ${isLila ? 'lila-text' : ''}" id="msgbody-${msgIndex ?? ''}">${isLila ? displayText : text}</div>
+    ${isLila ? optionsHtml : ''}
+    ${!isLila && msgIndex !== null ? `
+      <textarea class="msg-edit-area" id="msgedit-${msgIndex}" rows="3"></textarea>
+      <div class="msg-edit-actions" id="msgeditbtns-${msgIndex}">
+        <button class="msg-edit-save" onclick="saveEditMessage(${msgIndex})">重新发送</button>
+        <button class="msg-edit-cancel" onclick="cancelEditMessage(${msgIndex})">取消</button>
+      </div>` : ''}
   `;
   chatArea.appendChild(div);
   if (scroll) {
     const scrollEl = document.getElementById('chatScroll');
     scrollEl.scrollTop = scrollEl.scrollHeight;
   }
+  return div;
+}
+
+function startEditMessage(msgIndex) {
+  const thread = threads[currentThreadId];
+  const originalText = thread.messages[msgIndex]?.content || '';
+  const editArea = document.getElementById(`msgedit-${msgIndex}`);
+  const editBtns = document.getElementById(`msgeditbtns-${msgIndex}`);
+  const body = document.getElementById(`msgbody-${msgIndex}`);
+  if (!editArea) return;
+  editArea.value = originalText;
+  editArea.style.display = 'block';
+  editBtns.style.display = 'flex';
+  body.style.opacity = '0.4';
+  editArea.focus();
+}
+
+function cancelEditMessage(msgIndex) {
+  const editArea = document.getElementById(`msgedit-${msgIndex}`);
+  const editBtns = document.getElementById(`msgeditbtns-${msgIndex}`);
+  const body = document.getElementById(`msgbody-${msgIndex}`);
+  if (!editArea) return;
+  editArea.style.display = 'none';
+  editBtns.style.display = 'none';
+  body.style.opacity = '1';
+}
+
+async function saveEditMessage(msgIndex) {
+  const editArea = document.getElementById(`msgedit-${msgIndex}`);
+  const newText = editArea?.value.trim();
+  if (!newText || !currentThreadId) return;
+
+  const thread = threads[currentThreadId];
+  // Truncate history to this message index (inclusive), remove everything after
+  thread.messages = thread.messages.slice(0, msgIndex);
+  thread.display = thread.display.slice(0, msgIndex);
+
+  // Re-render chat up to this point
+  renderChat();
+
+  // Now send the edited message
+  document.getElementById('userInput').value = newText;
+  await sendMessage();
+}
+
+function sendOption(btn) {
+  const text = btn.dataset.option;
+  if (!text) return;
+  document.getElementById('userInput').value = text;
+  sendMessage();
 }
 
 function autoTitle(text) {
@@ -806,19 +1561,12 @@ function autoTitle(text) {
 
 async function generateAiTitle(thread) {
   try {
-    const res = await fetch('https://api.anthropic.com/v1/messages', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        model: 'claude-sonnet-4-20250514',
-        max_tokens: 30,
-        system: '你是标题生成助手。根据对话内容，用4-8个中文字生成一个简洁有意味的对话标题。只输出标题本身，不加任何标点或说明。',
-        messages: [{ role: 'user', content: `对话内容：\n用户：${thread.messages[0]?.content || ''}\n莉拉：${thread.messages[1]?.content || ''}` }]
-      })
+    const title = await callLLM({
+      system: `根据对话内容生成一个简洁的标题，4-10个字。要求：直接点明核心困惑或话题，用名词短语，不能是"和莉拉聊""倾诉烦恼"这类废话。例子："跳槽还是留下""被质疑后的迷茫"。只输出标题本身，不加标点或说明。`,
+      messages: [{ role: 'user', content: `用户：${thread.messages[0]?.content || ''}\n莉拉：${thread.messages[1]?.content || ''}` }],
+      maxTokens: 30
     });
-    const data = await res.json();
-    const title = data.content?.[0]?.text?.trim();
-    if (title && title.length <= 20) return title;
+    if (title && title.trim().length <= 20) return title.trim();
   } catch(e) {}
   return null;
 }
@@ -859,8 +1607,32 @@ function titleKeydown(e) {
   }
 }
 
+const LILA_THINKING_STATES = [
+  '莉拉在想',
+  '莉拉在皱眉',
+  '莉拉沉默着',
+  '莉拉盯着你',
+  '莉拉冷笑了一下',
+  '莉拉点了根烟',
+  '莉拉在权衡',
+  '莉拉不耐烦了',
+  '莉拉在看穿你',
+  '莉拉嗤之以鼻',
+  '莉拉叹了口气',
+  '莉拉的眼神变了',
+];
+
+function setRandomThinkingState() {
+  const el = document.getElementById('thinkingLabel');
+  if (!el) return;
+  el.textContent = LILA_THINKING_STATES[Math.floor(Math.random() * LILA_THINKING_STATES.length)];
+}
+
 document.getElementById('userInput').addEventListener('keydown', e => {
-  if (e.ctrlKey && e.key === 'Enter') sendMessage();
+  if (e.key === 'Enter' && !e.shiftKey) {
+    e.preventDefault();
+    sendMessage();
+  }
 });
 
 async function sendMessage() {
@@ -870,11 +1642,11 @@ async function sendMessage() {
   const text = input.value.trim();
   if (!text) return;
 
-  if (!currentThreadId) newThread(autoTitle(text));
+  if (!currentThreadId) newThread();
   const thread = threads[currentThreadId];
 
   if (thread.display.length === 0) {
-    thread.title = autoTitle(text);
+    thread.title = '新对话';
     document.getElementById('topbarTitle').textContent = thread.title;
     renderSidebar();
   }
@@ -883,37 +1655,45 @@ async function sendMessage() {
   const safeText = escHtml(text);
   thread.messages.push({ role: 'user', content: text });
   thread.display.push({ author: '你', text: safeText, isLila: false, ts });
-  appendMessageEl('你', safeText, false, ts);
+  const userMsgIndex = thread.messages.length - 1;
+  appendMessageEl('你', safeText, false, ts, true, userMsgIndex);
 
   document.getElementById('emptyState').style.display = 'none';
   input.value = '';
   btn.disabled = true;
   thinking.classList.add('active');
+  setRandomThinkingState();
 
   try {
-    const response = await fetch('https://api.anthropic.com/v1/messages', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        model: 'claude-sonnet-4-20250514',
-        max_tokens: 1000,
-        system: SYSTEM_PROMPT,
-        messages: thread.messages
-      })
+    const isProfile = thread.isProfile === true;
+    const sysPrompt = isProfile
+      ? `${PROFILE_SYSTEM_PROMPT}\n\n【当前时间】今天是 ${getCurrentDateStr()}。`
+      : buildSystemPrompt();
+
+    const reply = await callLLM({
+      system: sysPrompt,
+      messages: thread.messages.slice(-20),
+      maxTokens: 1000
     });
-
-    const data = await response.json();
-    if (data.error) throw new Error(data.error.message);
-
-    const reply = data.content?.[0]?.text || '……';
     const replyTs = getTimestamp();
-    const formatted = formatResponse(reply);
 
     thread.messages.push({ role: 'assistant', content: reply });
-    thread.display.push({ author: '莉拉', text: formatted, isLila: true, ts: replyTs });
+    thread.display.push({ author: '莉拉', text: reply, isLila: true, ts: replyTs });
 
     thinking.classList.remove('active');
-    appendMessageEl('莉拉', formatted, true, replyTs);
+    appendMessageEl('莉拉', reply, true, replyTs, true, null);
+
+    // Background tasks — delayed so main reply renders first
+    setTimeout(() => {
+      if (isProfile && thread.messages.length >= 2) {
+        extractMemory(thread.messages).then(mem => { if (mem) saveMemory(mem); });
+      }
+      if (!isProfile) {
+        autoExtractIntentions(text, reply);
+        const linked = commitments.filter(c => c.threadId === currentThreadId && !c.archived);
+        linked.forEach(c => updateCommitmentProgress(text, c.id));
+      }
+    }, 1500);
 
     // Generate AI title after first exchange
     if (thread.messages.length === 2) {
@@ -934,8 +1714,13 @@ async function sendMessage() {
     thinking.classList.remove('active');
     const errEl = document.createElement('span');
     errEl.className = 'error-msg';
-    errEl.textContent = '连接出了点问题，再试一次。';
+    errEl.textContent = err.name === 'AbortError'
+      ? '请求超时，请重试。'
+      : `连接出了问题：${err.message || '未知错误'}，请重试。`;
     document.getElementById('chatArea').appendChild(errEl);
+    // Remove the failed user message from history so they can retry cleanly
+    thread.messages.pop();
+    thread.display.pop();
   }
 
   btn.disabled = false;
@@ -951,25 +1736,565 @@ function exportChat() {
   if (!currentThreadId || !threads[currentThreadId]) return;
   const thread = threads[currentThreadId];
   if (thread.display.length === 0) return;
+
   const lines = [`莉拉 · 精神指引 · ${thread.title}`, '='.repeat(30), ''];
   thread.display.forEach(m => {
     lines.push(`【${m.author}】${m.ts ? ' ' + m.ts : ''}`);
     lines.push(stripHtml(m.text));
     lines.push('');
   });
-  const blob = new Blob([lines.join('\n')], { type: 'text/plain;charset=utf-8' });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = `lila-${thread.title.slice(0,10)}-${new Date().toISOString().slice(0,10)}.txt`;
-  a.click();
-  URL.revokeObjectURL(url);
+  const content = lines.join('\n');
+
+  // Try download first, fall back to modal
+  try {
+    const blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `lila-${thread.title.slice(0,10)}-${new Date().toISOString().slice(0,10)}.txt`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  } catch(e) {}
+
+  // Always show modal as reliable fallback
+  showExportModal(content);
+}
+
+function showExportModal(content) {
+  // Remove existing modal if any
+  const existing = document.getElementById('exportModal');
+  if (existing) existing.remove();
+
+  const modal = document.createElement('div');
+  modal.id = 'exportModal';
+  modal.style.cssText = `position:fixed;inset:0;background:rgba(26,20,16,0.85);z-index:999;display:flex;align-items:center;justify-content:center;padding:24px;`;
+  modal.innerHTML = `
+    <div style="background:var(--cream);max-width:600px;width:100%;max-height:80vh;display:flex;flex-direction:column;border-top:3px solid var(--rust);">
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:16px 20px;border-bottom:1px solid rgba(158,142,122,0.2);">
+        <span style="font-family:'EB Garamond',serif;font-size:12px;letter-spacing:2px;text-transform:uppercase;color:var(--dust);">导出对话</span>
+        <button onclick="document.getElementById('exportModal').remove()" style="background:none;border:none;font-size:20px;color:var(--dust);cursor:pointer;line-height:1;">×</button>
+      </div>
+      <textarea readonly id="exportText" style="flex:1;padding:20px;font-family:'Noto Serif SC',serif;font-size:13px;line-height:1.8;color:var(--shadow);background:transparent;border:none;outline:none;resize:none;min-height:300px;">${content.replace(/</g,'&lt;')}</textarea>
+      <div style="padding:12px 20px;border-top:1px solid rgba(158,142,122,0.2);display:flex;gap:8px;justify-content:flex-end;">
+        <button onclick="copyExport()" style="background:var(--ink);color:var(--paper);border:none;padding:8px 24px;font-family:'EB Garamond',serif;font-size:12px;letter-spacing:2px;text-transform:uppercase;cursor:pointer;">复制全部</button>
+      </div>
+    </div>
+  `;
+  document.body.appendChild(modal);
+  modal.addEventListener('click', e => { if (e.target === modal) modal.remove(); });
+}
+
+function copyExport() {
+  const ta = document.getElementById('exportText');
+  if (!ta) return;
+  ta.select();
+  try {
+    navigator.clipboard.writeText(ta.value).then(() => {
+      const btn = ta.parentElement.querySelector('button');
+      if (btn) { btn.textContent = '已复制'; setTimeout(() => btn.textContent = '复制全部', 2000); }
+    });
+  } catch(e) {
+    document.execCommand('copy');
+  }
+}
+
+// ── Commitment / Check-in System (Auto-extract) ──
+const COMMITMENTS_KEY = 'lila-commitments-v1';
+let commitments = []; // [{id, text, dueAt|null, done, source (threadId)}]
+let pendingCheckins = [];
+
+async function loadCommitments() {
+  try {
+    const r = await window.storage.get(COMMITMENTS_KEY);
+    if (r?.value) commitments = JSON.parse(r.value);
+  } catch(e) {}
+}
+
+async function saveCommitments() {
+  try { await window.storage.set(COMMITMENTS_KEY, JSON.stringify(commitments)); } catch(e) {}
+}
+
+// After each user message, silently scan for concrete intentions + time context
+async function autoExtractIntentions(userText, lilaReply) {
+  try {
+    const raw = await callLLM({
+      system: `你是意图提取助手。从用户和莉拉的对话里判断是否有具体、可执行的行动意图，以及是否明确了时间。
+
+必须同时满足才提取意图：
+1. 有明确的外部动作（发邮件、整理文件、联系某人、完成某任务等）
+2. 是还没开始做的事情
+3. 用户有明确意愿要做
+
+绝对不提取：思考类、感受类、模糊计划、正在进行的事情
+
+意图的 text 字段要求：
+- 动词+具体宾语，8字以内
+- 必须能让人一眼知道要做什么
+- 绝不能有"向莉拉""跟莉拉""反馈""聊聊"这类词
+- 不能是"思考X""梳理X""整理思路"这类内心动作
+
+时间提取规则：
+- 如果明确了时间，提取为 daysFromNow（数字）和 timeOfDay（"morning"或"afternoon"）
+- 没有明确时间则设为 null
+
+输出JSON数组，每个元素：{"text": "动词+宾语，8字以内", "daysFromNow": 数字或null, "timeOfDay": "morning"或"afternoon"或null}
+如果没有意图，输出 []。只输出JSON。`,
+      messages: [{ role: 'user', content: `用户说：${userText}\n莉拉说：${lilaReply || ''}` }],
+      maxTokens: 300
+    });
+    const intentions = JSON.parse(raw.replace(/```json|```/g, '').trim());
+    if (!Array.isArray(intentions) || intentions.length === 0) return;
+
+    for (const item of intentions) {
+      if (!item.text || item.text.length < 2) continue;
+      const already = commitments.some(c => c.text === item.text && !c.archived);
+      if (already) continue;
+
+      if (item.daysFromNow !== null && item.daysFromNow !== undefined) {
+        // Time is clear — save directly without asking
+        const due = new Date();
+        due.setDate(due.getDate() + item.daysFromNow);
+        due.setHours(item.timeOfDay === 'morning' ? 10 : 14, 0, 0, 0);
+        commitments.push({ id: uid(), text: item.text, dueAt: due.toISOString(), done: false, pending: false, archived: false, threadId: currentThreadId });
+        await saveCommitments();
+        checkOverdueCommitments();
+        // Show a brief confirmation, no buttons needed
+        setTimeout(() => showTimelineConfirmed(item.text, due), 600);
+      } else {
+        // No time — show picker
+        setTimeout(() => showTimelineSuggestion(item.text), 600);
+      }
+    }
+  } catch(e) {}
+}
+
+function showTimelineConfirmed(text, due) {
+  const chatArea = document.getElementById('chatArea');
+  if (!chatArea) return;
+  const d = due;
+  const dueStr = `${d.getMonth()+1}/${d.getDate()} ${String(d.getHours()).padStart(2,'0')}:00`;
+  const div = document.createElement('div');
+  div.className = 'timeline-suggest';
+  div.style.borderLeftColor = 'rgba(139,58,42,0.5)';
+  div.innerHTML = `<span class="timeline-suggest-text" style="opacity:0.7">「${escHtml(text)}」已记入约定 · ${dueStr} check in</span>`;
+  chatArea.appendChild(div);
+  const scrollEl = document.getElementById('chatScroll');
+  if (scrollEl) scrollEl.scrollTop = scrollEl.scrollHeight;
+  setTimeout(() => div.remove(), 4000);
+}
+
+function getWeekdays(weeksAhead = 1) {
+  const days = [];
+  const now = new Date();
+  const dayNames = ['周日','周一','周二','周三','周四','周五','周六'];
+  for (let i = 1; i <= weeksAhead * 7; i++) {
+    const d = new Date(now);
+    d.setDate(now.getDate() + i);
+    if (d.getDay() >= 1 && d.getDay() <= 5) { // Mon-Fri only
+      days.push({ label: `${dayNames[d.getDay()]} ${d.getMonth()+1}/${d.getDate()}`, date: d });
+    }
+  }
+  return days;
+}
+
+function showTimelineSuggestion(text) {
+  const chatArea = document.getElementById('chatArea');
+  if (!chatArea) return;
+  const tempId = uid();
+  const div = document.createElement('div');
+  div.className = 'timeline-suggest';
+  div.id = `ts-${tempId}`;
+  div.dataset.text = text;
+
+  const thisWeekDays = getWeekdays(1);
+  const twoWeekDays = getWeekdays(2);
+
+  // This week options (excluding tomorrow which is already a button)
+  const tomorrow = new Date(); tomorrow.setDate(tomorrow.getDate() + 1);
+  const tomorrowStr = `${tomorrow.getMonth()+1}/${tomorrow.getDate()}`;
+  const thisWeekOptions = thisWeekDays
+    .filter(d => `${d.date.getMonth()+1}/${d.date.getDate()}` !== tomorrowStr)
+    .map(d => `<button onclick="confirmCommitmentDate('${tempId}', '${d.date.toISOString()}', '${d.label}')">${d.label}</button>`)
+    .join('');
+
+  const twoWeekOptions = twoWeekDays
+    .filter(d => `${d.date.getMonth()+1}/${d.date.getDate()}` !== tomorrowStr && !thisWeekDays.find(w => w.label === d.label))
+    .map(d => `<button onclick="confirmCommitmentDate('${tempId}', '${d.date.toISOString()}', '${d.label}')">${d.label}</button>`)
+    .join('');
+
+  div.innerHTML = `
+    <span class="timeline-suggest-text">「${escHtml(text)}」——什么时候做？</span>
+    <div class="timeline-options" id="tlo-${tempId}">
+      <button onclick="confirmCommitmentDays('${tempId}', 1, '上午')">明天上午</button>
+      <button onclick="confirmCommitmentDays('${tempId}', 1, '下午')">明天下午</button>
+      <button onclick="toggleTimeExpand('${tempId}', 'week')">这周内 ▾</button>
+      <button onclick="toggleTimeExpand('${tempId}', 'twoweek')">两周内 ▾</button>
+      <button onclick="savePending('${tempId}')">暂不定</button>
+      <button onclick="dismissSuggestion('${tempId}')">不记录</button>
+    </div>
+    <div class="timeline-expand" id="te-week-${tempId}" style="display:none">${thisWeekOptions || '<span style="font-size:11px;color:var(--dust)">本周剩余工作日已过</span>'}</div>
+    <div class="timeline-expand" id="te-twoweek-${tempId}" style="display:none">${twoWeekOptions}</div>
+  `;
+  chatArea.appendChild(div);
+  const scrollEl = document.getElementById('chatScroll');
+  if (scrollEl) scrollEl.scrollTop = scrollEl.scrollHeight;
+}
+
+function toggleTimeExpand(tempId, type) {
+  const weekEl = document.getElementById(`te-week-${tempId}`);
+  const twoEl = document.getElementById(`te-twoweek-${tempId}`);
+  if (type === 'week') {
+    const show = weekEl.style.display === 'none';
+    weekEl.style.display = show ? 'flex' : 'none';
+    if (twoEl) twoEl.style.display = 'none';
+  } else {
+    const show = twoEl.style.display === 'none';
+    twoEl.style.display = show ? 'flex' : 'none';
+    if (weekEl) weekEl.style.display = 'none';
+  }
+  const scrollEl = document.getElementById('chatScroll');
+  if (scrollEl) scrollEl.scrollTop = scrollEl.scrollHeight;
+}
+
+async function confirmCommitmentDays(tempId, days, timeOfDay) {
+  const el = document.getElementById(`ts-${tempId}`);
+  const text = el?.dataset.text;
+  if (!text) return;
+  const due = new Date();
+  due.setDate(due.getDate() + days);
+  due.setHours(timeOfDay === '上午' ? 10 : 14, 0, 0, 0);
+  commitments.push({ id: uid(), text, dueAt: due.toISOString(), done: false, pending: false, threadId: currentThreadId });
+  await saveCommitments();
+  checkOverdueCommitments();
+  if (el) {
+    el.innerHTML = `<span class="timeline-suggest-text" style="opacity:0.5">「${escHtml(text)}」已记下，明天${timeOfDay} check in。</span>`;
+    setTimeout(() => el.remove(), 2500);
+  }
+}
+
+async function confirmCommitmentDate(tempId, isoDate, label) {
+  const el = document.getElementById(`ts-${tempId}`);
+  const text = el?.dataset.text;
+  if (!text) return;
+  const due = new Date(isoDate);
+  due.setHours(14, 0, 0, 0);
+  commitments.push({ id: uid(), text, dueAt: due.toISOString(), done: false, pending: false, threadId: currentThreadId });
+  await saveCommitments();
+  checkOverdueCommitments();
+  if (el) {
+    el.innerHTML = `<span class="timeline-suggest-text" style="opacity:0.5">「${escHtml(text)}」已记下，${label} 下午 check in。</span>`;
+    setTimeout(() => el.remove(), 2500);
+  }
+}
+
+async function savePending(tempId) {
+  const el = document.getElementById(`ts-${tempId}`);
+  const text = el?.dataset.text;
+  if (!text) return;
+  commitments.push({ id: uid(), text, dueAt: null, done: false, pending: true, threadId: currentThreadId });
+  await saveCommitments();
+  renderCheckinBadge();
+  if (el) {
+    el.innerHTML = `<span class="timeline-suggest-text" style="opacity:0.5">「${escHtml(text)}」放进待定，不会忘。</span>`;
+    setTimeout(() => el.remove(), 2500);
+  }
+}
+
+function dismissSuggestion(tempId) {
+  const el = document.getElementById(`ts-${tempId}`);
+  if (el) el.remove();
+}
+
+function checkOverdueCommitments() {
+  const now = new Date();
+  pendingCheckins = commitments.filter(c => !c.done && c.dueAt && new Date(c.dueAt) <= now);
+  renderCheckinBadge();
+  renderCheckinAlert();
+}
+
+function renderCheckinBadge() {
+  const badge = document.getElementById('checkinBadge');
+  if (!badge) return;
+  const count = commitments.filter(c => !c.done && c.dueAt && new Date(c.dueAt) <= new Date()).length;
+  if (count > 0) { badge.textContent = count; badge.style.display = 'inline'; }
+  else { badge.style.display = 'none'; }
+}
+
+function renderCheckinAlert() {
+  const alert = document.getElementById('checkinAlert');
+  if (!alert) return;
+  if (pendingCheckins.length === 0) { alert.style.display = 'none'; return; }
+  const first = pendingCheckins[0];
+  const more = pendingCheckins.length > 1 ? `，还有 ${pendingCheckins.length - 1} 件` : '';
+  alert.style.display = 'block';
+  alert.textContent = `「${first.text}」——你说过要做的，做了吗${more}？`;
+}
+
+function handleCheckinAlert() {
+  if (pendingCheckins.length === 0) return;
+  newThread();
+  const items = pendingCheckins.map(c => `「${c.text}」`).join('、');
+  const prompt = `[系统提示：用户之前说要做以下事项，时间已到：${items}。直接开口问进展，莉拉风格，不解释。]`;
+  setTimeout(async () => {
+    const thread = threads[currentThreadId];
+    if (!thread) return;
+    const btn = document.getElementById('sendBtn');
+    const thinking = document.getElementById('thinking');
+    btn.disabled = true;
+    thinking.classList.add('active');
+    try {
+      const reply = await callLLM({
+        system: buildSystemPrompt(),
+        messages: [{ role: 'user', content: prompt }],
+        maxTokens: 200
+      });
+      const ts = getTimestamp();
+      thread.display.push({ author: '莉拉', text: reply, isLila: true, ts });
+      thread.title = `检查：${pendingCheckins[0].text.slice(0,10)}`;
+      thinking.classList.remove('active');
+      document.getElementById('emptyState').style.display = 'none';
+      appendMessageEl('莉拉', reply, true, ts, true, null);
+      document.getElementById('topbarTitle').textContent = thread.title;
+      renderSidebar();
+      await saveAll();
+    } catch(e) { thinking.classList.remove('active'); }
+    btn.disabled = false;
+    document.getElementById('checkinAlert').style.display = 'none';
+  }, 100);
+}
+
+function openCheckinModal() {
+  const existing = document.getElementById('checkinModal');
+  if (existing) existing.remove();
+  const overdueIds = new Set(pendingCheckins.map(c => c.id));
+  const modal = document.createElement('div');
+  modal.id = 'checkinModal';
+  modal.className = 'modal-overlay';
+  modal.innerHTML = `
+    <div class="modal-box">
+      <div class="modal-head">
+        <span class="modal-head-title">我的约定</span>
+        <button class="modal-close" onclick="document.getElementById('checkinModal').remove()">×</button>
+      </div>
+      <div class="modal-body" style="max-height:60vh;overflow-y:auto;">
+        <div style="font-size:11px;color:var(--dust);font-style:italic;margin-bottom:12px;">点击事项跳入对话继续推进</div>
+        <div class="commitment-list" id="commitmentList">${renderCommitmentItems(overdueIds)}</div>
+      </div>
+    </div>
+  `;
+  document.body.appendChild(modal);
+  modal.addEventListener('click', e => { if (e.target === modal) modal.remove(); });
+}
+
+function renderCommitmentItems(overdueIds) {
+  const active = commitments.filter(c => !c.archived && !c.pending && c.dueAt);
+  const pending = commitments.filter(c => !c.archived && c.pending);
+  const archived = commitments.filter(c => c.archived);
+
+  if (commitments.length === 0) return '<div style="font-size:13px;color:var(--dust);font-style:italic;padding:8px 0;">莉拉还没有捕捉到你的计划</div>';
+
+  const renderItem = (c) => {
+    const overdue = overdueIds?.has(c.id);
+    let dueStr = '待定';
+    let dueInputVal = '';
+    if (c.dueAt) {
+      const d = new Date(c.dueAt);
+      dueStr = `${d.getMonth()+1}/${d.getDate()} ${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}`;
+      // Format for datetime-local input: YYYY-MM-DDTHH:MM
+      dueInputVal = d.toISOString().slice(0,16);
+    }
+    const progressHtml = c.progress ? `<div style="font-size:11px;color:var(--dust);font-style:italic;margin-top:2px;">${escHtml(c.progress)}</div>` : '';
+    return `
+      <div class="commitment-item" style="${c.archived ? 'opacity:0.4' : ''}">
+        <div style="flex:1;min-width:0;">
+          <div style="display:flex;align-items:baseline;flex-wrap:wrap;gap:0;">
+            <span class="commitment-text" id="ctxt-${c.id}" style="cursor:pointer;display:inline;" onclick="jumpToCommitment('${c.id}')">${escHtml(c.text)}</span><button onclick="event.stopPropagation();startEditCommitmentText('${c.id}')" style="background:none;border:none;color:var(--dust);cursor:pointer;font-size:10px;padding:0 0 0 3px;opacity:0.5;transition:opacity 0.15s;line-height:1;flex-shrink:0;display:inline;" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=0.5">✎</button>
+          </div>
+          <div id="cedit-${c.id}" style="display:none;margin-top:4px;">
+            <input style="width:100%;background:var(--paper);border:none;border-bottom:1px solid var(--rust);outline:none;font-family:'Noto Serif SC',serif;font-size:13px;color:var(--ink);padding:2px 0;"
+              value="${escHtml(c.text)}"
+              onkeydown="commitTextKeydown(event,'${c.id}')"
+              onblur="saveCommitmentText('${c.id}',this.value)" />
+          </div>
+          ${progressHtml}
+        </div>
+        <div class="due-wrap" onclick="event.stopPropagation();toggleDuePopup('due-${c.id}')">
+          <span class="commitment-due ${overdue ? 'overdue' : ''}">${dueStr} ✎</span>
+          <div class="due-edit-popup" id="due-${c.id}">
+            <input type="datetime-local" value="${dueInputVal}" step="300" onchange="updateCommitmentDue('${c.id}', this.value)" />
+            ${c.archived
+              ? `<button onclick="unarchiveCommitment('${c.id}')">取消归档</button>`
+              : `<button onclick="archiveCommitment('${c.id}')">归档</button>`}
+            <button onclick="deleteCommitment('${c.id}')">删除</button>
+          </div>
+        </div>
+      </div>`;
+  };
+
+  const sectionLabel = (t) => `<div style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--dust);padding:12px 0 4px;font-family:'EB Garamond',serif;">${t}</div>`;
+
+  return [
+    active.length ? sectionLabel('进行中') + active.map(renderItem).join('') : '',
+    pending.length ? sectionLabel('待定') + pending.map(renderItem).join('') : '',
+    archived.length ? sectionLabel('已归档') + archived.map(renderItem).join('') : ''
+  ].join('') || '<div style="font-size:13px;color:var(--dust);font-style:italic;">暂无记录</div>';
+}
+
+function startEditCommitmentText(id) {
+  document.getElementById(`ctxt-${id}`).style.display = 'none';
+  const editEl = document.getElementById(`cedit-${id}`);
+  editEl.style.display = 'block';
+  editEl.querySelector('input').focus();
+}
+
+async function saveCommitmentText(id, val) {
+  const text = val.trim();
+  if (!text) return;
+  const c = commitments.find(x => x.id === id);
+  if (!c) return;
+  c.text = text;
+  await saveCommitments();
+  const txtEl = document.getElementById(`ctxt-${id}`);
+  const editEl = document.getElementById(`cedit-${id}`);
+  if (txtEl) { txtEl.textContent = text; txtEl.style.display = ''; }
+  if (editEl) editEl.style.display = 'none';
+}
+
+function commitTextKeydown(e, id) {
+  if (e.key === 'Enter') { e.preventDefault(); e.target.blur(); }
+  if (e.key === 'Escape') {
+    const c = commitments.find(x => x.id === id);
+    document.getElementById(`ctxt-${id}`).style.display = '';
+    document.getElementById(`cedit-${id}`).style.display = 'none';
+    if (c) document.getElementById(`cedit-${id}`).querySelector('input').value = c.text;
+  }
+}
+
+function toggleDuePopup(id) {
+  // Close all other open popups first
+  document.querySelectorAll('.due-edit-popup.open').forEach(el => {
+    if (el.id !== id) el.classList.remove('open');
+  });
+  const popup = document.getElementById(id);
+  if (popup) popup.classList.toggle('open');
+}
+
+// Close due popups when clicking outside
+document.addEventListener('click', () => {
+  document.querySelectorAll('.due-edit-popup.open').forEach(el => el.classList.remove('open'));
+});
+
+async function updateCommitmentDue(id, val) {
+  const c = commitments.find(x => x.id === id);
+  if (!c || !val) return;
+  c.dueAt = new Date(val).toISOString();
+  c.pending = false;
+  await saveCommitments();
+  checkOverdueCommitments();
+  const list = document.getElementById('commitmentList');
+  if (list) list.innerHTML = renderCommitmentItems(new Set(pendingCheckins.map(c => c.id)));
+}
+
+async function jumpToCommitment(id) {
+  const c = commitments.find(x => x.id === id);
+  if (!c) return;
+  document.getElementById('checkinModal')?.remove();
+
+  const isFirstVisit = !c.threadId || !threads[c.threadId];
+
+  // Jump to source thread or create new one
+  const targetId = c.threadId && threads[c.threadId] ? c.threadId : null;
+  if (targetId) {
+    switchThread(targetId);
+  } else {
+    newThread();
+    c.threadId = currentThreadId;
+    await saveCommitments();
+  }
+
+  // Only check in on first visit
+  if (!isFirstVisit) return;
+
+  const thread = threads[currentThreadId];
+  const btn = document.getElementById('sendBtn');
+  const thinking = document.getElementById('thinking');
+  btn.disabled = true;
+  thinking.classList.add('active');
+  const prompt = `[系统提示：用户之前说要「${c.text}」。直接开口，莉拉风格，不解释。]`;
+  try {
+    const reply = await callLLM({
+      system: buildSystemPrompt(),
+      messages: [{ role: 'user', content: prompt }],
+      maxTokens: 200
+    });
+    const ts = getTimestamp();
+    thread.display.push({ author: '莉拉', text: reply, isLila: true, ts });
+    thread.messages.push({ role: 'assistant', content: reply });
+    thinking.classList.remove('active');
+    document.getElementById('emptyState').style.display = 'none';
+    appendMessageEl('莉拉', reply, true, ts, true, null);
+    await saveAll();
+  } catch(e) { thinking.classList.remove('active'); }
+  btn.disabled = false;
+}
+
+async function archiveCommitment(id) {
+  const c = commitments.find(x => x.id === id);
+  if (c) { c.archived = true; c.done = true; }
+  await saveCommitments();
+  checkOverdueCommitments();
+  const list = document.getElementById('commitmentList');
+  if (list) list.innerHTML = renderCommitmentItems(new Set(pendingCheckins.map(c => c.id)));
+}
+
+async function unarchiveCommitment(id) {
+  const c = commitments.find(x => x.id === id);
+  if (c) { c.archived = false; c.done = false; }
+  await saveCommitments();
+  checkOverdueCommitments();
+  const list = document.getElementById('commitmentList');
+  if (list) list.innerHTML = renderCommitmentItems(new Set(pendingCheckins.map(c => c.id)));
+}
+
+async function deleteCommitment(id) {
+  commitments = commitments.filter(c => c.id !== id);
+  await saveCommitments();
+  checkOverdueCommitments();
+  const list = document.getElementById('commitmentList');
+  if (list) list.innerHTML = renderCommitmentItems(new Set(pendingCheckins.map(c => c.id)));
+}
+
+// Auto-update commitment progress after each conversation exchange
+async function updateCommitmentProgress(userText, commitmentId) {
+  const c = commitments.find(x => x.id === commitmentId);
+  if (!c) return;
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 50,
+        system: '根据用户的回复，用一句话（10字以内）总结这件事目前的进展状态。只输出那句话，不要任何说明。',
+        messages: [{ role: 'user', content: `事项：${c.text}\n用户说：${userText}` }]
+      })
+    });
+    const data = await res.json();
+    const progress = data.content?.[0]?.text?.trim();
+    if (progress) { c.progress = progress; await saveCommitments(); }
+  } catch(e) {}
 }
 
 async function init() {
   await loadAll();
+  await loadMemory();
+  await loadCommitments();
   renderSidebar();
   renderChat();
+  updateMemoryBadge();
+  checkOverdueCommitments();
 }
 
 init();
