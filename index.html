@@ -1270,16 +1270,16 @@ async function extractMemory(profileMessages) {
 
 async function saveMemory(mem) {
   userMemory = mem;
-  try { await window.storage.set(MEMORY_KEY, mem); } catch(e) {}
+  try { localStorage.setItem(MEMORY_KEY, mem); } catch(e) {}
   updateMemoryBadge();
 }
 
 async function loadMemory() {
   try {
-    const r = await window.storage.get(MEMORY_KEY);
-    if (r?.value) userMemory = r.value;
-    const p = await window.storage.get(PROFILE_THREAD_KEY);
-    if (p?.value) profileThreadId = p.value;
+    const mem = localStorage.getItem(MEMORY_KEY);
+    if (mem) userMemory = mem;
+    const p = localStorage.getItem(PROFILE_THREAD_KEY);
+    if (p) profileThreadId = p;
   } catch(e) {}
   updateMemoryBadge();
 }
@@ -1305,7 +1305,7 @@ function openProfileThread() {
   const existing = Object.values(threads).find(t => t.isProfile);
   if (existing) {
     profileThreadId = existing.id;
-    try { window.storage.set(PROFILE_THREAD_KEY, existing.id); } catch(e) {}
+    try { localStorage.setItem(PROFILE_THREAD_KEY, existing.id); } catch(e) {}
     switchThread(existing.id);
     return;
   }
@@ -1320,7 +1320,7 @@ function openProfileThread() {
     display: [],
     isProfile: true
   };
-  try { window.storage.set(PROFILE_THREAD_KEY, id); } catch(e) {}
+  try { localStorage.setItem(PROFILE_THREAD_KEY, id); } catch(e) {}
   switchThread(id);
   saveAll();
 }
@@ -1349,17 +1349,17 @@ function escHtml(s) {
 
 async function saveAll() {
   try {
-    await window.storage.set(THREADS_KEY, JSON.stringify(threads));
-    if (currentThreadId) await window.storage.set(CURRENT_KEY, currentThreadId);
+    localStorage.setItem(THREADS_KEY, JSON.stringify(threads));
+    if (currentThreadId) localStorage.setItem(CURRENT_KEY, currentThreadId);
   } catch(e) {}
 }
 
 async function loadAll() {
   try {
-    const tr = await window.storage.get(THREADS_KEY);
-    if (tr?.value) threads = JSON.parse(tr.value);
-    const cur = await window.storage.get(CURRENT_KEY);
-    if (cur?.value && threads[cur.value]) currentThreadId = cur.value;
+    const tr = localStorage.getItem(THREADS_KEY);
+    if (tr) threads = JSON.parse(tr);
+    const cur = localStorage.getItem(CURRENT_KEY);
+    if (cur && threads[cur]) currentThreadId = cur;
   } catch(e) {}
 }
 
@@ -1811,13 +1811,13 @@ let pendingCheckins = [];
 
 async function loadCommitments() {
   try {
-    const r = await window.storage.get(COMMITMENTS_KEY);
-    if (r?.value) commitments = JSON.parse(r.value);
+    const r = localStorage.getItem(COMMITMENTS_KEY);
+    if (r) commitments = JSON.parse(r);
   } catch(e) {}
 }
 
 async function saveCommitments() {
-  try { await window.storage.set(COMMITMENTS_KEY, JSON.stringify(commitments)); } catch(e) {}
+  try { localStorage.setItem(COMMITMENTS_KEY, JSON.stringify(commitments)); } catch(e) {}
 }
 
 // After each user message, silently scan for concrete intentions + time context
